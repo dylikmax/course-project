@@ -17,19 +17,14 @@ const authMiddleware = async (req, res, next) => {
     const isValidToken = await mysqlProvider.isValidToken(refreshToken);
 
     if (!isValidToken) {
-      return res.status(403).json();
+      return res.status(401).json();
     }
 
     const newTokens = await authProvider.refreshTokens(refreshToken);
 
-    const { id, st } = jwt.verify(refreshToken, REFRESH_SECRET_KEY);
-
-    if (requiredLevel > st) {
-      return res.status(403).json();
-    }
+    const { id } = jwt.verify(refreshToken, REFRESH_SECRET_KEY);
 
     req.user.id = id;
-    req.user.status = st;
 
     cookieProvider.setTokens(res, newTokens);
   }

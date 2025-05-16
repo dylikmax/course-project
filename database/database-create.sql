@@ -1,5 +1,5 @@
 DROP DATABASE IF EXISTS AutoFix;
-CREATE DATABASE AutoFix;
+CREATE DATABASE AutoFix default charset 'utf8mb4';
 
 USE AutoFix;
 
@@ -17,6 +17,7 @@ CREATE TABLE Products (
     description VARCHAR(200) NULL,
     image_url VARCHAR(100) NULL,
     car VARCHAR(50) NULL,
+    color VARCHAR(50) NULL,
     price DECIMAL(10, 2) NOT NULL
 );
 

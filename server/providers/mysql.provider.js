@@ -112,6 +112,72 @@ class mysqlProvider {
       token,
     ]);
   };
+
+  static getProducts = async () => {
+      const [rows] = await this.#connection.query(
+      "SELECT * FROM Products;"
+    );
+
+    return rows;
+  }
+
+  static getProduct = async (id) => {
+    const [rows] = await this.#connection.query(
+      "SELECT * FROM Products WHERE id = ?;", [id]
+    );
+
+    if (rows.length === 0) {
+      throw new Error("Product with this ID doesn`t exist.");
+    }
+
+    const product = rows[0];
+
+    return product;
+  }
+
+  static getCart = async (userId) => {
+    const [rows] = await this.#connection.query(
+      "SELECT p.id AS product_id, p.name, p.description, p.image_url, p.car, p.color, p.price, pic.id FROM Products p JOIN Products_in_cart pic ON p.id = pic.product_id WHERE pic.user_id = ?;", [userId]
+    );
+
+    return { products: rows, sum: +rows.reduce((acc, currentProduct) => acc + +currentProduct.price, 0).toFixed(2) }
+  }
+
+  static addToCart = async (userId, productId) => {
+    const [rows] = await this.#connection.query(
+      "SELECT * FROM Products WHERE id = ?;", [productId]
+    );
+
+    if (rows.length === 0) {
+      throw new Error("Product with this ID doesn`t exist.");
+    }
+
+    const [insert] = await this.#connection.query(
+      "INSERT INTO Products_in_cart (product_id, user_id) VALUES (?, ?)", [productId, userId]
+    );
+
+    return insert.insertId;
+  }
+
+  static deleteFromCart = async (userId, inCartId) => {
+    const [rows] = await this.#connection.query(
+      "SELECT * FROM Products_in_cart WHERE id = ? AND user_id = ?;", [inCartId, userId]
+    );
+
+    if (rows.length === 0) {
+      throw new Error("Product with this ID doesn`t exist in your cart.");
+    }
+
+    await this.#connection.query(
+      "DELETE FROM Products_in_cart WHERE id = ?;", [inCartId]
+    );
+  }
+
+  static clearCart = async (userId) => {
+      await this.#connection.query(
+      "DELETE FROM Products_in_cart WHERE user_id = ?;", [userId]
+    );
+  }
 }
 
 export default mysqlProvider;
