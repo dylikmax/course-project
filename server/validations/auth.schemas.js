@@ -10,19 +10,9 @@ const authSchemas = {
     body("password")
       .isLength({ min: 8 })
       .withMessage("Password should be at least 8 characters long."),
-    body("name")
-      .isLength({ min: 2 })
-      .withMessage("Name should be at least 2 characters long.")
-      .isLength({ max: 21 })
-      .withMessage("Name should be no more than 21 characters long."),
-    body("surname")
-      .isLength({ min: 2 })
-      .withMessage("Surname should be at least 2 characters long.")
-      .isLength({ max: 21 })
-      .withMessage("Surname should be no more than 21 characters long."),
-    body("bankAcc")
-      .isInt({ min: 100000, max: 999999 })
-      .withMessage("Bank account must be a number with 6 digits."),
+    body("email")
+      .isEmail()
+      .withMessage("Wrong email format.")
   ],
   login: [
     body("login")

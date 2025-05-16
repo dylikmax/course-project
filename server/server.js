@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(express.static("public"));
+app.use(express.json());
 app.use(cookieParser());
 
 const PORT = 3000;

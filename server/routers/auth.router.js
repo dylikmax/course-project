@@ -5,7 +5,6 @@ import mysqlProvider from "../providers/mysql.provider.js";
 import authProvider from "../providers/auth.provider.js";
 import cookieProvider from "../providers/cookie.provider.js";
 import authMiddleware from "../middlewares/auth.middleware.js";
-import statuses from "../enums/statuses.enum.js";
 
 const authRouter = express.Router();
 
@@ -16,17 +15,7 @@ authRouter.post(
     try {
       const user = req.body;
 
-      const realVkId = await vkApiProvider.getRealId(user.VK_ID);
-      const isVkUnique = await mysqlProvider.isUniqueVkId(realVkId);
-
-      if (!isVkUnique) {
-        throw new Error("User with this VK is already exist.");
-      }
-
-      const result = await mysqlProvider.addUser({
-        ...user,
-        VK_ID: realVkId,
-      });
+      const result = await mysqlProvider.addUser(user);
 
       const userId = result[0].insertId;
       const tokens = await authProvider.createTokens(userId, 0);
@@ -65,7 +54,7 @@ authRouter.post(
 authRouter.patch(
   "/change-password",
   schemaCheck(authSchemas.changePassword),
-  authMiddleware(statuses["Заблокирован"]),
+  authMiddleware,
   async (req, res) => {
     try {
       const { oldPassword, newPassword } = req.body;
@@ -80,7 +69,7 @@ authRouter.patch(
 
 authRouter.post(
   "/logout",
-  authMiddleware(statuses["Заблокирован"]),
+  authMiddleware,
   async (req, res) => {
     await mysqlProvider.deleteToken(req.cookies.refresh_token);
     cookieProvider.deleteTokens(res);
