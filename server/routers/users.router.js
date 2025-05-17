@@ -33,12 +33,4 @@ usersRouter.get(
   },
 );
 
-usersRouter.get(
-  "/me/orders",
-  authMiddleware,
-  (req, res) => {
-    res.send("my orders");
-  },
-);
-
 export default usersRouter;
