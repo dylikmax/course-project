@@ -7,6 +7,8 @@ import HomePage from "../pages/home/HomePage";
 import Layout from "../components/layout/Layout";
 import ProfilePage from "../pages/profile/ProfilePage";
 import ProductsPage from "../pages/products/ProductsPage";
+import ProductPage from "../pages/product/ProductPage";
+import CartPage from "../pages/cart/CartPage";
 
 export const router = createBrowserRouter([
   {
@@ -35,11 +37,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "products/:id",
-            element: <>Product with ID</>,
+            element: <ProductPage/>,
           },
           {
             path: "cart",
-            element: <>Cart</>,
+            element: <CartPage/>,
           },
           {
             path: "orders",
