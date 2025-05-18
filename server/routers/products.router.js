@@ -34,8 +34,13 @@ productsRouter.get("/", authMiddleware, async (req, res) => {
 
     return isValid;
   });
-
+  
   res.json(filteredProducts);
+});
+
+productsRouter.get("/filters", authMiddleware, async (req, res) => {
+    const filters = await mysqlProvider.getFilters();
+    res.json(filters);
 });
 
 productsRouter.get("/:id", authMiddleware, async (req, res) => {

@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'Bounded';
+  src: url("fonts/Bounded-Variable.ttf");
+}
+
+:root {
+  --bg: #29312F;
+  --dark: #3C514A;
+  --light: #A7CABF;
+  --primary: #1A8D69;
+  --errors: #B46767;
+  font-family: 'Bounded', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Bounded', sans-serif;
+}

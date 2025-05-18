@@ -324,6 +324,26 @@ class mysqlProvider {
       [orderId]
     );
   }
+
+  static getFilters = async () => {
+    const [cars] = await this.#connection.query(
+      "SELECT DISTINCT car FROM Products;"
+    );
+
+    const [colors] = await this.#connection.query(
+      "SELECT DISTINCT color FROM Products;"
+    );
+
+    const [price] = await this.#connection.query(
+      "SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM Products;"
+    );
+
+    return {
+      cars: cars.map(obj => obj.car).filter(obj => obj !== null).sort(),
+      colors: colors.map(obj => obj.color).filter(obj => obj !== null).sort(),
+      price: price[0]
+    }
+  }
 }
 
 export default mysqlProvider;
