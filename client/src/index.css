@@ -17,3 +17,12 @@
   padding: 0;
   font-family: 'Bounded', sans-serif;
 }
+
+body {
+    overflow: auto;
+}
+
+
+body::-webkit-scrollbar {
+    display: none;
+}

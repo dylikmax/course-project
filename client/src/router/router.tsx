@@ -5,6 +5,8 @@ import RegisterPage from "../pages/register/RegisterPage";
 import ErrorPage from "../pages/error/ErrorPage";
 import HomePage from "../pages/home/HomePage";
 import Layout from "../components/layout/Layout";
+import ProfilePage from "../pages/profile/ProfilePage";
+import ProductsPage from "../pages/products/ProductsPage";
 
 export const router = createBrowserRouter([
   {
@@ -21,11 +23,15 @@ export const router = createBrowserRouter([
           },
           {
             path: "profile",
-            element: <>My profile</>,
+            element: <ProfilePage/>,
+          },
+          {
+            path: "change-password",
+            element: <></>
           },
           {
             path: "products",
-            element: <>Products</>,
+            element: <ProductsPage/>,
           },
           {
             path: "products/:id",

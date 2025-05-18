@@ -68,7 +68,7 @@ class mysqlProvider {
 
   static getFullUserInfo = async (id) => {
     const [rows] = await this.#connection.query(
-      "SELECT * FROM users WHERE id = ?",
+      "SELECT id, login, email, create_time FROM users WHERE id = ?",
       [id]
     );
 

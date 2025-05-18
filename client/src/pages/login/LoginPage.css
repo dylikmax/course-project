@@ -70,6 +70,12 @@ button {
     cursor: pointer;
 }
 
+button:hover {
+    background-color: var(--light);
+    color: var(--primary);
+    transition: .3s;
+}
+
 .span-link {
     text-decoration: none;
     color: var(--primary);

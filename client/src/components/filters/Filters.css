@@ -1,0 +1,42 @@
+.checkbox-filter {
+    display: flex;
+    gap: 7px;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px; 
+    height: 20px; 
+    background-color: var(--bg);
+    border-radius: 4px; 
+    position: relative;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--light);
+}
+
+input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 10px;
+    border: solid var(--dark);
+    border-width: 0 5px 5px 0;
+    transform: rotate(45deg);
+    left: 5px;
+    top: 1px;
+}
+
+.span {
+    color: var(--light);
+    font-weight: 300;
+    text-wrap: wrap;
+}
+
+.number-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
