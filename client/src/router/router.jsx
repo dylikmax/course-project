@@ -9,6 +9,7 @@ import ProfilePage from "../pages/profile/ProfilePage";
 import ProductsPage from "../pages/products/ProductsPage";
 import ProductPage from "../pages/product/ProductPage";
 import CartPage from "../pages/cart/CartPage";
+import OrdersPage from "../pages/orders/OrdersPage";
 
 export const router = createBrowserRouter([
   {
@@ -45,7 +46,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "orders",
-            element: <>Orders</>,
+            element: <OrdersPage/>,
+          },
+          {
+            path: "orders/new",
+            element: <>New order</>,
           },
           {
             path: "orders/:id",

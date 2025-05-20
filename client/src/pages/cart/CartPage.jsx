@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import ProductInCart from "../../components/product-in-cart/ProductInCart"
 import "./CartPage.css"
 
@@ -43,11 +44,20 @@ const cart = {
 export default function CartPage() {
     return <div className="cart-page">
         <div className="cart-page__container">
+          <div className="top-inf">
             <h2>Корзина</h2>
-            <div className="main-cont">
-            <div className="products">
-                {cart.products.map(product => <ProductInCart product={product}/>)}
+            <div className="cart__side-menu">
+              Итого: {cart.sum} BYN
+              <div className="side-menu__buttons">
+                <div className="btn"><Link to="/orders/new"><button>Оформить заказ</button></Link></div>
+                <div className="btn"><button>Очистить корзину</button></div>
+              </div>
             </div>
+            </div>
+            <div className="main-cont">
+              <div className="products">
+                  {cart.products.map(product => <ProductInCart product={product}/>)}
+              </div>
             </div>
         </div>
     </div>

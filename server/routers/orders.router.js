@@ -53,9 +53,17 @@ ordersRouter.post(
   schemaCheck(ordersSchemas.new),
   authMiddleware,
   async (req, res) => {
-    await mysqlProvider.newOrder(req.user.id, req.body.address);
+    try {
+      await mysqlProvider.newOrder(req.user.id, req.body.address);
+  
+      res.json();
+    } catch (error) {
+      if (error.message === "Order must be non empty") {
+        res.status(400).json({ error: error.message })
+      }
 
-    res.json();
+      res.status(500).json({ error: error.message })
+    }
   },
 );
 

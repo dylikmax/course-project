@@ -34,11 +34,25 @@ h5 {
 
 .icon {
     display: inline-block;
-    width: 40px;
-    height: 40px;
-    background-color: var(--light);
+    width: 30px;
+    height: 30px;
+    background-color: var(--primary);
     border-radius: 4px;
     position: relative;
+    cursor: pointer;
+}
+
+.icon:hover {
+    background-color: var(--light);
+    transition: .3s;
+}
+
+.plus:hover::before,
+.plus:hover::after,
+.minus:hover::before,
+.minus:hover::after {
+    background-color: var(--primary);
+    transition: .3s;
 }
 
 .plus::before,
@@ -47,21 +61,21 @@ h5 {
 .minus::after {
     content: '';
     position: absolute;
-    background-color: var(--primary);
+    background-color: var(--light);
 }
 
 .plus::before {
     width: 4px;
     height: 20px;
     left: 50%;
-    top: 10px;
+    top: 5px;
     transform: translateX(-50%);
 }
 
 .plus::after {
     width: 20px;
     height: 4px;
-    left: 10px;
+    left: 5px;
     top: 50%;
     transform: translateY(-50%);
 }
@@ -69,7 +83,7 @@ h5 {
 .minus::before {
     width: 20px;
     height: 4px;
-    left: 10px;
+    left: 5px;
     top: 50%;
     transform: translateY(-50%);
 }
@@ -81,4 +95,24 @@ h5 {
 .product__cart-actions {
     margin-left: auto;
     width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.actions__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.actions__number-count {
+    font-size: 36px;
+}
+
+.count-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
