@@ -1,12 +1,19 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./LoginPage.css"
+import API from "../../api/api";
 
 export default function LoginPage() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         login: '',
         password: ''
     });
+
+    const [errors, setErrors] = useState({
+        login: '',
+        password: ''
+    })
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -19,8 +26,33 @@ export default function LoginPage() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log('Form Data:', formData);
+        const currentErrors = {
+            login: formData.login.includes(" ") ? "Логин не должен содержать пробельных символов." : formData.login.length < 3 ? "Логин должен быть длиной минимум 3 символа." : "",
+            password: formData.password < 8 ? "Длина пароля должна быть минимум 8 символов" : "",
+        }
 
+        setErrors(currentErrors)
+        
+        if(Object.values(currentErrors).some(value => value.length !== 0)) {
+            return;
+        }
+
+        const login = async () => {
+            try {
+                await API.login(formData);
+
+                navigate("/")
+            } catch (error) {
+                console.log(error);
+                
+                if (error.message === "Bad Request") {
+                    const error = { ...currentErrors, login: 'Неверный логин или пароль.' };
+                    setErrors(error);
+                }
+            }
+        }
+        
+        login();
     };
 
 
@@ -31,10 +63,12 @@ export default function LoginPage() {
             <div className="form__row">
                 <label htmlFor="login">Логин:</label>
                 <input type="text" id="login" name="login" value={formData.login} onChange={handleChange}/>
+                <div className="row-error">{errors.login}</div>
             </div>
             <div className="form__row">
                 <label htmlFor="password">Пароль:</label>
                 <input type="password" id="password" name="password" value={formData.password} onChange={handleChange}/>
+                <div className="row-error">{errors.password}</div>
             </div>
             <button type="submit">Войти</button>
         </form>

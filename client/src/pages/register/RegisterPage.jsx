@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./RegisterPage.css"
+import API from "../../api/api";
 
 export default function RegisterPage() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         login: '',
         email: '',
@@ -28,8 +30,35 @@ export default function RegisterPage() {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log('Form Data:', formData);
+        const currentErrors = {
+            login: formData.login.includes(" ") ? "Логин не должен содержать пробельных символов." : formData.login.length < 3 ? "Логин должен быть длиной минимум 3 символа." : "",
+            email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) ? "" : "Некорректный формат электронной почты.",
+            password: formData.password < 8 ? "Длина пароля должна быть минимум 8 символов" : "",
+            passwordRepeat: formData.password !== formData.passwordRepeat ? "Пароли не совпадают" : ""
+        }
 
+        setErrors(currentErrors)
+        
+        if(Object.values(currentErrors).some(value => value.length !== 0)) {
+            return;
+        }
+
+        const register = async () => {
+            try {
+                await API.register(formData);
+
+                navigate("/")
+            } catch (error) {
+                console.log(error);
+                
+                if (error.message === "Bad Request") {
+                    const error = { ...currentErrors, login: 'Пользователь с таким логином уже существует.' };
+                    setErrors(error);
+                }
+            }
+        }
+        
+        register();
     };
 
 

@@ -5,32 +5,21 @@ import mysqlProvider from "../providers/mysql.provider.js";
 const productsRouter = express.Router();
 
 productsRouter.get("/", authMiddleware, async (req, res) => {
-  const { name, cars, colors, price } = req.query;
+  const { cars, colors, price } = req.query;
   const products = await mysqlProvider.getProducts();
 
   const filteredProducts = products.filter((product) => {
     let isValid = true;
 
-    if (name) {
-      isValid =
-        isValid && product.name.toLowerCase().includes(name.toLowerCase());
-    }
-
-    if (cars) {
       const carsArray = Array.isArray(cars) ? cars : [cars];
-      isValid = isValid && carsArray.includes(product.car);
-    }
+      isValid = isValid && (carsArray.includes(product.car) || product.car === null);
 
-    if (colors) {
       const colorsArray = Array.isArray(colors) ? colors : [colors];
-      isValid = isValid && colorsArray.includes(product.color);
-    }
+      isValid = isValid && (colorsArray.includes(product.color) || product.color === null);
 
-    if (price) {
-      const [minPrice, maxPrice] = price.split(",").map(Number);
+      const [minPrice, maxPrice] = price.map(Number);
       isValid =
         isValid && product.price >= minPrice && product.price <= maxPrice;
-    }
 
     return isValid;
   });

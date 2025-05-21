@@ -1,0 +1,33 @@
+.home-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 30px;
+}
+
+.home-page__button {
+    height: 60%;
+    background-color: var(--dark);
+    display: flex;
+    flex-direction: column;
+    color: var(--light);
+    font-size: 28px;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+    border-radius: 8px;
+    width: 20%;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.home-page__button:hover {
+    background-color: var(--light);
+    color: var(--dark);
+    transition: .3s;
+}
+
+.home-page__img {
+    width: 150px;
+}

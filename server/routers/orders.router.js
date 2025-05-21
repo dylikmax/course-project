@@ -58,7 +58,9 @@ ordersRouter.post(
   
       res.json();
     } catch (error) {
-      if (error.message === "Order must be non empty") {
+      console.log(error);
+      
+      if (error.message === "Order must be non empty.") {
         res.status(400).json({ error: error.message })
       }
 

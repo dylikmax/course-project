@@ -1,17 +1,33 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import "./ProductPage.css"
+import { useEffect, useState } from "react"
+import API from "../../api/api"
 
-const product = {
-    "id": 1,
-    "name": "Левое зеркало",
-    "description": "Зеркало на водительскую дверь, имеется электронная регулировка и подогрев.",
-    "image_url": "https://r.autostrong-m.by/p/10000932",
-    "car": "Audi A4 B5",
-    "color": "Тёмно-зелёный",
-    "price": "49.95"
-}
 
 export default function ProductPage() {
+    const [product, setProduct] = useState({})
+    const navigate = useNavigate();
+
+    const { id } = useParams()
+    useEffect(() => {
+        const fetchData = async () => {
+            const fetchedProduct = await API.getProduct(id);
+
+            setProduct(fetchedProduct)
+        }
+
+        fetchData();
+    }, [])
+
+    const handleClick = () => {
+        const fetchData = async () => {
+            await API.toCart(id);
+            navigate("/cart")
+        }
+
+        fetchData();
+    }
+
     return <div className="product-page">
         <div className="product-page__container">
             <img src={product.image_url ? product.image_url : "/svg/null-image.svg"} className="pp__product-img" />
@@ -30,7 +46,7 @@ export default function ProductPage() {
             </div>
             <div className="bottom-blocks">
                 <div className="bb__buttons">
-                <div className="bb__btn"><button>В корзину</button></div>
+                <div className="bb__btn"><button onClick={handleClick}>В корзину</button></div>
                 <div className="bb__btn"><Link to="/products"><button>Все товары</button></Link></div>
                 </div>
             <span className="pp__price">{product.price + " BYN"}</span>

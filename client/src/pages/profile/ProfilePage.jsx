@@ -1,14 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./ProfilePage.css"
-
-const user = {
-    login: "Абвгд",
-    email: "a@gmail.com",
-    id: 1,
-    create_time: "2025-05-16T21:02:28.000Z"
-};
+import { useEffect, useState } from "react";
+import API from "../../api/api";
 
 export default function ProfilePage() {
+    const [user, setUser] = useState({})
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const fetchedMe = await API.getMe();
+            setUser(fetchedMe)
+        }
+              
+        fetchData();
+    },[])
+
+    const handleLogout = async () => {
+        const fetchData = async () => {
+            await API.logout();
+            navigate();
+        }
+              
+        fetchData();
+    }
 
     const date = new Date(user.create_time);    
 
@@ -35,7 +50,7 @@ export default function ProfilePage() {
                 </div>
                 <div className="buttons">
                     <div className="btn"><Link to="/change-password"><button>Сменить пароль</button></Link></div>
-                    <div className="btn"><button>Выйти из аккаунта</button></div>
+                    <div className="btn"><button onClick={handleLogout}>Выйти из аккаунта</button></div>
                 </div>
             </div>
         </div>

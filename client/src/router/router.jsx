@@ -10,11 +10,15 @@ import ProductsPage from "../pages/products/ProductsPage";
 import ProductPage from "../pages/product/ProductPage";
 import CartPage from "../pages/cart/CartPage";
 import OrdersPage from "../pages/orders/OrdersPage";
+import OrderPage from "../pages/order/OrderPage";
+import ChangePasswordPage from "../pages/change-password/ChangePasswordPage";
+import NewOrderPage from "../pages/new-order/NewOrderPage";
+import AuthOutlet from "../auth/AuthOutlet";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <><Outlet/></>,
+    element: <AuthOutlet/>,
     errorElement: <ErrorPage/>,
     children: [
       {
@@ -30,7 +34,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "change-password",
-            element: <></>
+            element: <ChangePasswordPage/>
           },
           {
             path: "products",
@@ -50,11 +54,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "orders/new",
-            element: <>New order</>,
+            element: <NewOrderPage/>,
           },
           {
             path: "orders/:id",
-            element: <>Order with ID</>,
+            element: <OrderPage/>,
           },
         ],
       },
