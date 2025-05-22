@@ -51,6 +51,18 @@ authRouter.post(
   },
 );
 
+authRouter.get(
+  "/check-auth",
+  authMiddleware,
+  async (req, res) => {
+    try {
+      res.json({ isAuth: true });
+    } catch (error) {
+      res.json({ isAuth: false });
+    }
+  },
+);
+
 authRouter.patch(
   "/change-password",
   schemaCheck(authSchemas.changePassword),

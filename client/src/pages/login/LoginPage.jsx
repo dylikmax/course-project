@@ -41,11 +41,11 @@ export default function LoginPage() {
             try {
                 await API.login(formData);
 
-                navigate("/")
+                window.location.reload()
             } catch (error) {
                 console.log(error);
                 
-                if (error.message === "Bad Request") {
+                if (error.message === "Bad Request" || error.message === "Not Found") {
                     const error = { ...currentErrors, login: 'Неверный логин или пароль.' };
                     setErrors(error);
                 }

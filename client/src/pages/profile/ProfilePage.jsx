@@ -19,7 +19,8 @@ export default function ProfilePage() {
     const handleLogout = async () => {
         const fetchData = async () => {
             await API.logout();
-            navigate();
+            
+            window.location.reload()
         }
               
         fetchData();

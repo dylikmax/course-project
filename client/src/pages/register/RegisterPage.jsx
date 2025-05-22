@@ -29,13 +29,14 @@ export default function RegisterPage() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
+        
         const currentErrors = {
             login: formData.login.includes(" ") ? "Логин не должен содержать пробельных символов." : formData.login.length < 3 ? "Логин должен быть длиной минимум 3 символа." : "",
             email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) ? "" : "Некорректный формат электронной почты.",
-            password: formData.password < 8 ? "Длина пароля должна быть минимум 8 символов" : "",
+            password: formData.password.length < 8 ? "Длина пароля должна быть минимум 8 символов" : "",
             passwordRepeat: formData.password !== formData.passwordRepeat ? "Пароли не совпадают" : ""
         }
+        console.log(formData.password, currentErrors);
 
         setErrors(currentErrors)
         
@@ -47,9 +48,8 @@ export default function RegisterPage() {
             try {
                 await API.register(formData);
 
-                navigate("/")
+                window.location.reload()
             } catch (error) {
-                console.log(error);
                 
                 if (error.message === "Bad Request") {
                     const error = { ...currentErrors, login: 'Пользователь с таким логином уже существует.' };

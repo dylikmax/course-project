@@ -217,4 +217,20 @@ export default class API {
 
         return await response.json();
     }
+
+        static checkAuth = async () => {
+        const response = await fetch(this.#BASE_API_URL + "auth/check-auth", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+        })
+
+        if (!response.ok) {
+            return { isAuth: false };
+        }
+
+        return await response.json();
+    }
 }
